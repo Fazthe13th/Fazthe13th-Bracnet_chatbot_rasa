@@ -1,0 +1,63 @@
+version: "2.0"
+
+stories:
+
+# - story: happy path
+#   steps:
+#   - intent: greet
+#   - action: utter_greet
+#   - intent: mood_great
+#   - action: utter_happy
+
+# - story: sad path 1
+#   steps:
+#   - intent: greet
+#   - action: utter_greet
+#   - intent: mood_unhappy
+#   - action: utter_cheer_up
+#   - action: utter_did_that_help
+#   - intent: affirm
+#   - action: utter_happy
+
+# - story: sad path 2
+#   steps:
+#   - intent: greet
+#   - action: utter_greet
+#   - intent: mood_unhappy
+#   - action: utter_cheer_up
+#   - action: utter_did_that_help
+#   - intent: deny
+#   - action: utter_goodbye
+- story: Customer chat start
+  steps:
+  - intent: greet
+  - action: utter_greet
+  - action: utter_ask_old_or_new_customer
+  - checkpoint: bot_asked_new_or_old_customer
+- story: New customer path
+  steps:
+  - checkpoint: bot_asked_new_or_old_customer
+  - intent: new_customer
+  - action: action_new_customer_response
+  - action: utter_what_info_new_customer_needs
+- story: RDP/Old customer path
+  steps:
+  - checkpoint: bot_asked_new_or_old_customer
+  - intent: old_customer
+  - action: action_old_customer_response
+# - story: Answer general quries
+#   steps:
+#   - intent: general_quries
+#   - action: utter_what_general_information
+#   - intent: available_services
+#   - action: utter_available_services
+#   - intent: managed_services
+#   - action: utter_managed_services
+#   - intent: video_conferencing
+#   - action: utter_video_conferencing
+#   - intent: smart_home
+#   - action: utter_smart_home
+#   - intent: IP_phone
+#   - action: utter_IP_phone
+#   - intent: intranet
+#   - action: utter_intranet

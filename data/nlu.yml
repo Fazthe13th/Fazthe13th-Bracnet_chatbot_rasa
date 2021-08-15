@@ -1,0 +1,187 @@
+version: "2.0"
+
+nlu:
+- intent: greet
+  examples: |
+    - hey
+    - hello
+    - hi
+    - hello there
+    - good morning
+    - good evening
+    - moin
+    - hey there
+    - let's go
+    - hey dude
+    - goodmorning
+    - goodevening
+    - good afternoon
+
+- intent: goodbye
+  examples: |
+    - good afternoon
+    - cu
+    - good by
+    - cee you later
+    - good night
+    - bye
+    - goodbye
+    - have a nice day
+    - see you around
+    - bye bye
+    - see you later
+
+- intent: affirm
+  examples: |
+    - yes
+    - y
+    - indeed
+    - of course
+    - that sounds good
+    - correct
+
+- intent: deny
+  examples: |
+    - no
+    - n
+    - never
+    - I don't think so
+    - don't like that
+    - no way
+    - not really
+
+- intent: mood_great
+  examples: |
+    - perfect
+    - great
+    - amazing
+    - feeling like a king
+    - wonderful
+    - I am feeling very good
+    - I am great
+    - I am amazing
+    - I am going to save the world
+    - super stoked
+    - extremely good
+    - so so perfect
+    - so good
+    - so perfect
+
+- intent: mood_unhappy
+  examples: |
+    - my day was horrible
+    - I am sad
+    - I don't feel very well
+    - I am disappointed
+    - super sad
+    - I'm so sad
+    - sad
+    - very sad
+    - unhappy
+    - not good
+    - not very good
+    - extremly sad
+    - so saad
+    - so sad
+
+- intent: bot_challenge
+  examples: |
+    - are you a bot?
+    - are you a human?
+    - am I talking to a bot?
+    - am I talking to a human?
+
+# Custom intents
+# - intent: query_intent
+#   examples: |
+#     - We have some queries
+#     - I would like to ask you some quetions
+#     - I am just asking for information
+- intent: new_customer
+  examples: |
+    - I am not your customer
+    - I am a new customer
+    - I am a guest customer
+    - I am yet to be your customer
+- intent: old_customer
+  examples: |
+    - I am your existing customer
+    - I am an old customer
+    - I am a returning customer
+    - I have RDP account
+    - I use your internet
+- intent: general_quries
+  examples: |
+    - Can I have some quicl General information
+    - General quries related to your company
+    - I would liek to know about company
+    - We have some queries
+    - I would like to ask you some quetions
+    - I am just asking for information
+- intent: isp_quires
+  examples: |
+    - Information related to internet provider
+    - Are you internet provider
+    - Do you provide ISP
+    - Rural development
+- intent: available_services
+  examples: |
+    - what kind of services do you provide?
+    - what are the available services of bracnet?
+    - what bracnet can do?
+    - your company's available services
+    - what kind of work do you guys do
+- intent: managed_services
+  examples: |
+    - what managed do you provide
+    - available managed
+    - I need managed service
+    - tell some that are managed by you
+- intent: video_conferencing
+  examples: |
+    - i need video conferencing
+    - software for video conference
+    - video conference
+- intent: smart_home
+  examples: |
+    - what smart home  do you have
+    - IOT
+    - smart home camera
+    - smart home
+- intent: IP_phone
+  examples: |
+    - voip phone systems
+    - ip telephone system for business
+    - ip phone
+    - voip phone
+- intent: intranet
+  examples: |
+    - intranet
+    - intranet for organization
+    - Do you provide intranet for company
+
+- intent: package_information
+  examples: |
+    - what are your available packages
+    - what internet packages do you have
+    - can i see the packages do you have
+    - how much is 1mbps will cost me a month
+    - what are your monthly packages
+- intent: sales_contact
+  examples: |
+    - Give me the contact for your salesperson of my area
+    - How can I contact to the sales guy
+    - who should I talk to to
+    - I am interested to buy. who should I contact with
+- intent: available_zones
+  examples: |
+    - Can you provide in my area
+    - is it available in my area
+    - In which zones are you active
+    - I live in uttara, can you give in uttara
+- intent: out_of_scope
+  examples: |
+    - I want to order food
+    - What is 2 + 2?
+    - Who's the US President?
+

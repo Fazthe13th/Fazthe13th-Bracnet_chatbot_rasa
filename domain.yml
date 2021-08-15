@@ -1,0 +1,139 @@
+version: "2.0"
+
+intents:
+  - greet
+  - goodbye
+  - affirm
+  - deny
+  - mood_great
+  - mood_unhappy
+  - bot_challenge
+  - new_customer
+  - old_customer
+  - general_quries
+  - isp_quires
+  - available_services
+  - managed_services
+  - video_conferencing
+  - smart_home
+  - IP_phone
+  - intranet
+  - package_information
+  - sales_contact
+  - available_zones
+  - out_of_scope
+
+responses:
+  utter_general_quries:
+  - text: "Great. What is it about Bracnet Limited you wnat to know"
+    buttons:
+      - title: "Available services"
+        payload: "/available_services"
+      - title: "Managed services"
+        payload: "/managed_services"
+      - title: "Video conferencing"
+        payload: "/video_conferencing"
+      - title: "Smart Home"
+        payload: "/smart_home"
+      - title: "IP phone"
+        payload: "/IP_phone"
+      - title: "Intranet"
+        payload: "/intranet"
+  
+  utter_isp_quires:
+  - text: "We do provide ISP service. For more info click the following:"
+    buttons:
+      - title: "Package information"
+        payload: "/package_information"
+      - title: "Contact info for sales personals"
+        payload: "/sales_contact"
+      # - title: "Current offers if avaiable"
+      #   payload: "/current_offers"
+      - title: "Available Zones/ Coverage"
+        payload: "/available_zones"
+  utter_greet:
+  - text: "Hello welcome to Bracnet Limited."
+  utter_ask_old_or_new_customer:
+  - text: "I would like to know are you"
+    buttons:
+      - title: "Guest Customer"
+        payload: "/new_customer"
+      - title: "Existing Customer"
+        payload: "/old_customer"
+
+  utter_new_customer_response:
+  - text: "Hello new customer. Welcome to Bracnet Limited."
+
+  utter_what_info_new_customer_needs:
+  - text: "We provide internet service along with ather services. I will be able to provide you information based on folloing criterias"
+    buttons:
+      - title: "General quires about Bracnet Limited"
+        payload: "/general_quries"
+      - title: "ISP/Internet related quires"
+        payload: "/isp_quires"
+
+  utter_old_customer_response:
+  - text: "Hello welcome back. Can I have your User name and password for RDP information"
+  # General quries answers
+  utter_available_services:
+  - text: "Our available service is listed on the landing page at [Bracnet.net](https://bracnet.net/)"
+  utter_managed_services:
+  - text: "you can find our managed service list at [Bracnet Managed services](https://bracnet.net/managed-services/)"
+  utter_video_conferencing:
+  - text: "We do provide video conferencing solution. See [Bracnet video conferencing solution](https://bracnet.net/video-conferencing/)"
+  utter_smart_home:
+  - text: "Make your home smart. See [Bracnet's IOT services](https://bracnet.net/smart-home/)"
+  utter_IP_phone:
+  - text: "For VOIP solution follow [this link](https://bracnet.net/ip-phone/)"
+  utter_intranet:
+  - text: "We provide intranet for organizations. Please see [this link](https://bracnet.net/intranet/)"
+  # general quries answers end
+  # ISP quries
+  # utter_available_services:
+  # - text: "Our available service is listed on the landing page at [Bracnet.net](https://bracnet.net/)"
+  # utter_managed_services:
+  # - text: "you can find our managed service list at [Bracnet Managed services](https://bracnet.net/managed-services/)"
+  # utter_video_conferencing:
+  # - text: "We do provide video conferencing solution. See [Bracnet video conferencing solution](https://bracnet.net/video-conferencing/)"
+  # ISP quries end
+  utter_cheer_up:
+  - text: "Here is something to cheer you up:"
+    image: "https://i.imgur.com/nGF1K8f.jpg"
+
+  utter_did_that_help:
+  - text: "Did that help you?"
+
+  utter_happy:
+  - text: "Great, carry on!"
+
+  utter_goodbye:
+  - text: "Bye"
+
+  utter_iamabot:
+  - text: "I am a bot, powered by Rasa."
+  utter_ask_rephrase:
+  - text: "I'm sorry, I didn't quite understand that. Could you rephrase?"
+  utter_default:
+  - text: "I'm sorry, I can't help you."
+  utter_out_of_scope:
+  - text: Sorry, I can't handle that request.
+
+actions:
+  - action_new_customer_response
+  - action_old_customer_response
+  - action_package_information
+  - action_sales_contact
+  - action_available_zones
+slots:
+  new_customer:
+    type: bool
+    initial_value: false
+    influence_conversation: false
+  existing_customer:
+    type: bool
+    initial_value: false
+    influence_conversation: false
+
+session_config:
+  session_expiration_time: 60
+  carry_over_slots_to_new_session: true
