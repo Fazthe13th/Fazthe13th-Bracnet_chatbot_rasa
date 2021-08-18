@@ -95,29 +95,36 @@ class ActionAvailableZone(Action):
         package_text = "zone"
         dispatcher.utter_message(text=package_text)
         return []
-# class ActionNewCustomer(Action):
-
-#     def name(self) -> Text:
-#         return "new_customer_response"
-
-#     def run(self, dispatcher: CollectingDispatcher,
-#             tracker: Tracker,
-#             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-
-#         dispatcher.utter_message(response="new_customer_response")
-
-#         return []
 
 
-# class ActionOldCustomer(Action):
+class ValidateRestaurantForm(Action):
+    def name(self) -> Text:
+        return "leads_form"
 
-#     def name(self) -> Text:
-#         return "existing_customer_response"
+    def run(
+        self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict
+    ) -> List[Dict[Text, Any]]:
+        required_slots = ["client_name", "client_phone"]
 
-#     def run(self, dispatcher: CollectingDispatcher,
-#             tracker: Tracker,
-#             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        for slot_name in required_slots:
+            if tracker.slots.get(slot_name) is None:
+                # The slot is not filled yet. Request the user to fill this slot next.
+                return [SlotSet("requested_slot", slot_name)]
 
-#         dispatcher.utter_message(response="existing_customer_response")
+        # All slots are filled.
+        return [SlotSet("requested_slot", None)]
 
-#         return []
+
+class ActionSubmit(Action):
+    def name(self) -> Text:
+        return "action_submit_survey_from"
+
+    def run(
+        self,
+        dispatcher,
+        tracker: Tracker,
+        domain: Dict[Text, Any],
+    ) -> List[Dict[Text, Any]]:
+        dispatcher.utter_message(template="utter_details_thanks",
+                                 Name=tracker.get_slot("name"),
+                                 Mobile_number=tracker.get_slot("number"))

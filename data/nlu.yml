@@ -108,80 +108,91 @@ nlu:
     - I am your existing customer
     - I am an old customer
     - I am a returning customer
-    - I have RDP account
     - I use your internet
 - intent: general_quries
   examples: |
-    - Can I have some quicl General information
+    - Can I have some general information
     - General quries related to your company
-    - I would liek to know about company
-    - We have some queries
-    - I would like to ask you some quetions
+    - I would like to know about [Bracnet](company_name)
     - I am just asking for information
 - intent: isp_quires
   examples: |
-    - Information related to internet provider
-    - Are you internet provider
-    - Do you provide ISP
-    - Rural development
+    - Information related to [internet provider](internet_service)
+    - Are you [internet provider](internet_service)
+    - Do you provide [ISP](internet_service)
+    - DO you have [internet service](internet_service)?
 - intent: available_services
   examples: |
     - what kind of services do you provide?
-    - what are the available services of bracnet?
-    - what bracnet can do?
+    - what are the available services of [bracnet](company_name)?
+    - what [bracnet](company_name) can do?
     - your company's available services
-    - what kind of work do you guys do
 - intent: managed_services
   examples: |
-    - what managed do you provide
-    - available managed
-    - I need managed service
-    - tell some that are managed by you
+    - what [managed](managed_service) do you provide
+    - available [managed](managed_service) services
+    - I need [managed](managed_service) service
+    - tell some that are [managed](managed_service) by you
 - intent: video_conferencing
   examples: |
-    - i need video conferencing
-    - software for video conference
-    - video conference
+    - i need [video conferencing](video_conference)
+    - software for [video conference](video_conference)
+    - I want to buy [zoom](video_conference)
 - intent: smart_home
   examples: |
     - what smart home  do you have
-    - IOT
-    - smart home camera
-    - smart home
+    - Do you provide [IOT](smart_home_service)
+    - I need [CCTV](smart_home_service) camera
+    - Do you have [security camera](smart_home_service)
 - intent: IP_phone
   examples: |
-    - voip phone systems
-    - ip telephone system for business
-    - ip phone
-    - voip phone
+    - [voip](ip_phone_service) phone systems
+    - [ip telephone](ip_phone_service) system for business
+    - I need to know about [ip phone](ip_phone_service)
+    - [voip phone](ip_phone_service), is it available?
 - intent: intranet
   examples: |
-    - intranet
-    - intranet for organization
-    - Do you provide intranet for company
+    - We would like to know about [intranet](intranet_service)
+    - [intranet](intranet_service) for my organization
+    - Do you provide [intranet](intranet_service) for company
+    - Does [Bracnet]{"entity":"company_name", "role":"vendor"} provide [intranet service](intranet_service) to [NPoly]{"entity":"company_name", "role":"client"}
 
 - intent: package_information
   examples: |
-    - what are your available packages
-    - what internet packages do you have
-    - can i see the packages do you have
-    - how much is 1mbps will cost me a month
-    - what are your monthly packages
+    - what are your internet [packages](packages)
+    - what internet [packages](packages) do you have
+    - can i see the [packages](packages) do you have
+    - how much is [1mbps](packages) will cost me a month
+    - what are your [monthly packages](packages)
 - intent: sales_contact
   examples: |
     - Give me the contact for your salesperson of my area
     - How can I contact to the sales guy
-    - who should I talk to to
+    - who should I talk to if I want to know more about your services
     - I am interested to buy. who should I contact with
 - intent: available_zones
   examples: |
     - Can you provide in my area
     - is it available in my area
     - In which zones are you active
-    - I live in uttara, can you give in uttara
+    - I live in [uttara](zone), can you give in [uttara](zone)
 - intent: out_of_scope
   examples: |
     - I want to order food
     - What is 2 + 2?
     - Who's the US President?
+- intent: client_name_intent
+  examples: |
+    - My name is [Evan](client_name)
+    - People call me [Arif](client_name)
+    - My first name is [Fazlul]{"entity":"client_name", "role": "first_name"} and my last name is [Haque]{"entity":"client_name", "role": "last_name"}
+- intent: client_phone_number
+  examples: |
+    - My phone number is [01839111179](client_phone)
+    - [01715414804](client_phone) is my phone number
+    - my mobile number is [01712066896]
 
+# - synonym: credit
+#   examples: |
+#     - credit card account
+#     - credit account

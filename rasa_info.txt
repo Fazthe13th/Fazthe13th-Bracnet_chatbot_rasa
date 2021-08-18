@@ -11,3 +11,6 @@ models/<timestamp>.tar.gz your initial model
 commands:
 1. Run rasa server: rasa train && rasa run -m models --enable-api --cors "*" --debug
 2. run action server: rasa run actions
+
+
+
