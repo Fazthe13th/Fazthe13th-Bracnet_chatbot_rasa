@@ -10,49 +10,50 @@ intents:
   - bot_challenge
   - new_customer
   - old_customer
-  - general_quries
-    use_entities:
-      - company_name 
-  - isp_quires
-    use_entities:
-    - internet_service
-  - available_services
-    use_entities:
-    - company_name
-  - managed_services
-    use_entities:
-    - managed_service
-  - video_conferencing
-    use_entities:
-    - video_conference
-  - smart_home
-    use_entities:
-    - smart_home_service
-  - IP_phone
-    use_entities:
-    - ip_phone_service
-  - intranet
-    use_entities:
-    - intranet_service
-    - company_name
-  - package_information
-    use_entities:
-    - packages
+  - get_personal_information
+  - general_quries:
+      use_entities:
+        - company_name 
+  - isp_quires:
+      use_entities:
+      - internet_service
+  - available_services:
+      use_entities:
+      - company_name
+  - managed_services:
+      use_entities:
+      - managed_service
+  - video_conferencing:
+      use_entities:
+      - video_conference
+  - smart_home:
+      use_entities:
+      - smart_home_service
+  - IP_phone:
+      use_entities:
+      - ip_phone_service
+  - intranet:
+      use_entities:
+      - intranet_service
+      - company_name
+  - package_information:
+      use_entities:
+      - packages
   - sales_contact
-  - available_zones
-    use_entities:
-    - zone
+  - available_zones:
+      use_entities:
+      - zone
   - out_of_scope
-  - client_name_intent
-    use_entities:
-    - client_name
-  - client_phone_number
-    use_entities:
-    - client_phone
+  - client_name_intent:
+      use_entities:
+      - client_name
+  - client_phone_number:
+      use_entities:
+      - client_phone
 
 responses:
   utter_general_quries:
-  - text: "Great. What is it about Bracnet Limited you wnat to know"
+  - text: "What is it about Bracnet Limited you wnat to know"
     buttons:
       - title: "Available services"
         payload: "/available_services"
@@ -151,16 +152,30 @@ responses:
   - text: "I'm sorry, I can't help you."
   utter_out_of_scope:
   - text: Sorry, I can't handle that request.
-  utter_ask_persoanl_information:
-  - text: "Can I please ask you some personal informations for our future references. You will be very kind if you provide us."
-
+  # utter_ask_persoanl_information:
+  # - text: "Can I please ask you some personal informations for our future references. You will be very kind if you provide us."
+  utter_ask_anything_else:
+  - text: "Can I help you with any other information?"
+    buttons:
+      - title: "Yes"
+        payload: "/affirm"
+      - title: "No"
+        payload: "/deny"
+  utter_ask_personal_information:
+  - text: "Can I please ask you some personal informations for our future references? You will be very kind if you provide us."
+    buttons:
+      - title: "Yes"
+        payload: "/get_personal_information"
+      - title: "No"
+        payload: "/deny"
+  
 actions:
   - action_new_customer_response
   - action_old_customer_response
   - action_package_information
   - action_sales_contact
   - action_available_zones
-  - action_submit_survey_from
+  - action_submit_survey_form
 slots:
   new_customer:
     type: bool

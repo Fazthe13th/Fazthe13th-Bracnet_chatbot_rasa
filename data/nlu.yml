@@ -192,6 +192,11 @@ nlu:
     - [01715414804](client_phone) is my phone number
     - my mobile number is [01712066896]
 
+- intent: get_personal_information
+  examples: |
+    - Can I have your personal information?
+    - I will need some persoal information for survey
+    - May I ask you some personal questions?
 # - synonym: credit
 #   examples: |
 #     - credit card account

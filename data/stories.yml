@@ -64,3 +64,18 @@ stories:
 #   - action: utter_IP_phone
 #   - intent: intranet
 #   - action: utter_intranet
+- story: User like to know more
+  steps:
+  - intent: affirm
+  - action: utter_what_info_new_customer_needs
+- story: User like to end converstion with personal info
+  steps: 
+  - intent: deny
+  - action: utter_ask_personal_information
+- story: User like to end converstion without personal info
+  steps: 
+  - intent: deny
+  - action: utter_ask_personal_information
+  - intent: deny
+  - intent: goodbye
+  - action: utter_goodbye

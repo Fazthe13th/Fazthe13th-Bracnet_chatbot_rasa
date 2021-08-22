@@ -12,6 +12,7 @@ from typing import Any, Text, Dict, List
 from rasa_sdk import Action, Tracker
 from rasa_sdk.executor import CollectingDispatcher
 from rasa_sdk.events import SlotSet
+from rasa_sdk.types import DomainDict
 
 
 class ActionHelloWorld(Action):
@@ -117,14 +118,14 @@ class ValidateRestaurantForm(Action):
 
 class ActionSubmit(Action):
     def name(self) -> Text:
-        return "action_submit_survey_from"
+        return "action_submit_survey_form"
 
     def run(
         self,
         dispatcher,
         tracker: Tracker,
-        domain: Dict[Text, Any],
+        domain: DomainDict,
     ) -> List[Dict[Text, Any]]:
-        dispatcher.utter_message(template="utter_details_thanks",
-                                 Name=tracker.get_slot("name"),
-                                 Mobile_number=tracker.get_slot("number"))
+
+        dispatcher.utter_message(Text="Thank you for your information")
+        return [SlotSet("client_name", tracker.get_slot("client_name")), SlotSet("client_phone", tracker.get_slot("number"))]

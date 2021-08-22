@@ -106,3 +106,19 @@ rules:
   steps:
   - intent: out_of_scope
   - action: utter_out_of_scope
+
+- rule: Activate lead form
+  steps:
+  - intent: get_personal_information
+  - action: leads_form
+  - active_loop: leads_form
+- rule: Submit form
+  condition:
+  # Condition that form is active
+  - active_loop: leads_form
+  steps:
+  - action: leads_form
+  - active_loop: null
+  - slot_was_set:
+    - requested_slot: null
+  - action: action_submit_survey_form
