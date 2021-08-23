@@ -13,32 +13,19 @@ intents:
   - get_personal_information
   - general_quries:
       use_entities:
-        - company_name 
-  - isp_quires:
-      use_entities:
-      - internet_service
+        - company_name
+  - isp_quires
   - available_services:
       use_entities:
       - company_name
-  - managed_services:
-      use_entities:
-      - managed_service
-  - video_conferencing:
-      use_entities:
-      - video_conference
-  - smart_home:
-      use_entities:
-      - smart_home_service
-  - IP_phone:
-      use_entities:
-      - ip_phone_service
+  - managed_services
+  - video_conferencing
+  - smart_home
+  - IP_phone
   - intranet:
       use_entities:
-      - intranet_service
       - company_name
-  - package_information:
-      use_entities:
-      - packages
+  - package_information
   - sales_contact
   - available_zones:
       use_entities:
@@ -202,13 +189,6 @@ forms:
             entity: client_phone
 entities:
   - company_name
-  - internet_service
-  - managed_service
-  - video_conference
-  - smart_home_service
-  - ip_phone_service
-  - intranet_service
-  - packages
   - zone
   - client_phone
   - client_name

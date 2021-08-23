@@ -39,8 +39,6 @@ class ActionSetNewCustomer(Action):
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
 
         dispatcher.utter_message(response="utter_new_customer_response")
-        # SlotSet("existing_customer", False)
-        # return [SlotSet("new_customer", True)]
         return [SlotSet("new_customer", True), SlotSet("existing_customer", False)]
 
 
@@ -54,8 +52,6 @@ class ActionSetExistingCustomer(Action):
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
 
         dispatcher.utter_message(response="utter_old_customer_response")
-        # SlotSet("new_customer", False)
-        # return [SlotSet("existing_customer", True)]
         return [SlotSet("new_customer", False), SlotSet("existing_customer", True)]
 
 

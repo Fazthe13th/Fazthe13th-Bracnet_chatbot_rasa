@@ -117,10 +117,10 @@ nlu:
     - I am just asking for information
 - intent: isp_quires
   examples: |
-    - Information related to [internet provider](internet_service)
-    - Are you [internet provider](internet_service)
-    - Do you provide [ISP](internet_service)
-    - DO you have [internet service](internet_service)?
+    - Information related to internet provider
+    - Are you internet provider
+    - Do you provide ISP
+    - DO you have internet service?
 - intent: available_services
   examples: |
     - what kind of services do you provide?
@@ -129,41 +129,41 @@ nlu:
     - your company's available services
 - intent: managed_services
   examples: |
-    - what [managed](managed_service) do you provide
-    - available [managed](managed_service) services
-    - I need [managed](managed_service) service
-    - tell some that are [managed](managed_service) by you
+    - what managed do you provide
+    - available managed services
+    - I need managed service
+    - tell some that are managed by you
 - intent: video_conferencing
   examples: |
-    - i need [video conferencing](video_conference)
-    - software for [video conference](video_conference)
-    - I want to buy [zoom](video_conference)
+    - i need video conferencing
+    - software for video conference
+    - I want to buy zoom
 - intent: smart_home
   examples: |
     - what smart home  do you have
-    - Do you provide [IOT](smart_home_service)
-    - I need [CCTV](smart_home_service) camera
-    - Do you have [security camera](smart_home_service)
+    - Do you provide IOT
+    - I need CCTV camera
+    - Do you have security camera
 - intent: IP_phone
   examples: |
-    - [voip](ip_phone_service) phone systems
-    - [ip telephone](ip_phone_service) system for business
-    - I need to know about [ip phone](ip_phone_service)
-    - [voip phone](ip_phone_service), is it available?
+    - voip phone systems
+    - ip telephone system for business
+    - I need to know about ip phone
+    - voip phone, is it available?
 - intent: intranet
   examples: |
-    - We would like to know about [intranet](intranet_service)
-    - [intranet](intranet_service) for my organization
-    - Do you provide [intranet](intranet_service) for company
-    - Does [Bracnet]{"entity":"company_name", "role":"vendor"} provide [intranet service](intranet_service) to [NPoly]{"entity":"company_name", "role":"client"}
+    - We would like to know about intranet
+    - intranet for my organization
+    - Do you provide intranet for company
+    - Does [Bracnet]{"entity":"company_name", "role":"vendor"} provide intranet service to [NPoly]{"entity":"company_name", "role":"client"}
 
 - intent: package_information
   examples: |
-    - what are your internet [packages](packages)
-    - what internet [packages](packages) do you have
-    - can i see the [packages](packages) do you have
-    - how much is [1mbps](packages) will cost me a month
-    - what are your [monthly packages](packages)
+    - what are your internet packages
+    - what internet packages do you have
+    - can i see the packages do you have
+    - how much is 1mbps will cost me a month
+    - what are your monthly packages
 - intent: sales_contact
   examples: |
     - Give me the contact for your salesperson of my area
