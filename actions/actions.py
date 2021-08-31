@@ -39,6 +39,7 @@ class ActionSetNewCustomer(Action):
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
 
         dispatcher.utter_message(response="utter_new_customer_response")
+        dispatcher.utter_message(response="utter_what_info_new_customer_needs")
         return [SlotSet("new_customer", True), SlotSet("existing_customer", False)]
 
 
