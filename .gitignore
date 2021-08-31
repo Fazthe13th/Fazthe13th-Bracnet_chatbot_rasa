@@ -1,3 +1,4 @@
 models/*
 .vscode
 tensorboard/*
+actions/__pycache__/*
