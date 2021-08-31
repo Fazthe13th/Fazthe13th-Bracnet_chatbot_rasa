@@ -33,7 +33,14 @@ rules:
 #   steps:
 #   - intent: old_customer
 #   - action: action_old_customer_response
-
+- rule: Hello and ask
+  steps:
+  - intent: greet
+  - action: utter_greet
+  - action: utter_ask_old_or_new_customer
+  - intent: new_customer
+  - action: action_new_customer_response
+  - action: utter_what_info_new_customer_needs 
 
 - rule: Answer general quries anytime
   steps:
