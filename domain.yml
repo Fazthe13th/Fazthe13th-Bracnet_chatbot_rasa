@@ -135,8 +135,8 @@ responses:
   - text: "I am a bot, powered by Rasa."
   utter_ask_rephrase:
   - text: "I'm sorry, I didn't quite understand that. Could you rephrase?"
-  utter_default:
-  - text: "I'm sorry, I can't help you."
+  # utter_default:
+  # - text: "I'm sorry, I can't help you."
   utter_out_of_scope:
   - text: Sorry, I can't handle that request.
   # utter_ask_persoanl_information:
