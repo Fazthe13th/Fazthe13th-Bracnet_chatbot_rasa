@@ -50,39 +50,6 @@ nlu:
     - no way
     - not really
 
-- intent: mood_great
-  examples: |
-    - perfect
-    - great
-    - amazing
-    - feeling like a king
-    - wonderful
-    - I am feeling very good
-    - I am great
-    - I am amazing
-    - I am going to save the world
-    - super stoked
-    - extremely good
-    - so so perfect
-    - so good
-    - so perfect
-
-- intent: mood_unhappy
-  examples: |
-    - my day was horrible
-    - I am sad
-    - I don't feel very well
-    - I am disappointed
-    - super sad
-    - I'm so sad
-    - sad
-    - very sad
-    - unhappy
-    - not good
-    - not very good
-    - extremly sad
-    - so saad
-    - so sad
 
 - intent: bot_challenge
   examples: |
@@ -124,8 +91,8 @@ nlu:
 - intent: available_services
   examples: |
     - what kind of services do you provide?
-    - what are the available services of [bracnet](company_name)?
-    - what [bracnet](company_name) can do?
+    - what are the available services of bracnet?
+    - what bracnet can do?
     - your company's available services
 - intent: managed_services
   examples: |
@@ -175,7 +142,6 @@ nlu:
     - Can you provide in my area
     - is it available in my area
     - In which zones are you active
-    - I live in [uttara](zone), can you give in [uttara](zone)
 - intent: out_of_scope
   examples: |
     - I want to order food
@@ -186,11 +152,12 @@ nlu:
     - My name is [Evan](client_name)
     - People call me [Arif](client_name)
     - My first name is [Fazlul]{"entity":"client_name", "role": "first_name"} and my last name is [Haque]{"entity":"client_name", "role": "last_name"}
+    - My first name is [Enamul]{"entity":"client_name", "role": "first_name"} and my last name is [Haque]{"entity":"client_name", "role": "last_name"}
 - intent: client_phone_number
   examples: |
     - My phone number is [01839111179](client_phone)
     - [01715414804](client_phone) is my phone number
-    - my mobile number is [01712066896]
+    - my mobile number is [01712066896](client_phone)
 
 - intent: get_personal_information
   examples: |

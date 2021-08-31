@@ -5,8 +5,6 @@ intents:
   - goodbye
   - affirm
   - deny
-  - mood_great
-  - mood_unhappy
   - bot_challenge
   - new_customer
   - old_customer
@@ -22,14 +20,10 @@ intents:
   - video_conferencing
   - smart_home
   - IP_phone
-  - intranet:
-      use_entities:
-      - company_name
+  - intranet
   - package_information
   - sales_contact
-  - available_zones:
-      use_entities:
-      - zone
+  - available_zones
   - out_of_scope
   - client_name_intent:
       use_entities:
@@ -80,7 +74,7 @@ responses:
   - text: "Hello new customer. Welcome to Bracnet Limited."
 
   utter_what_info_new_customer_needs:
-  - text: "We provide internet service along with ather services. I will be able to provide you information based on folloing criterias"
+  - text: "I will be able to provide you information based on folloing criterias"
     buttons:
       - title: "General quires about Bracnet Limited"
         payload: "/general_quries"
@@ -134,7 +128,7 @@ responses:
   utter_iamabot:
   - text: "I am a bot, powered by Rasa."
   utter_ask_rephrase:
-  - text: "I'm sorry, I didn't quite understand that. Could you rephrase?"
+  - text: "I'm sorry, I didn't quite understand that."
   # utter_default:
   # - text: "I'm sorry, I can't help you."
   utter_out_of_scope:
@@ -163,21 +157,22 @@ actions:
   - action_sales_contact
   - action_available_zones
   - action_submit_survey_form
+  - action_default_fallback
 slots:
   new_customer:
     type: bool
     initial_value: false
-    influence_conversation: true
+    influence_conversation: false
   existing_customer:
     type: bool
     initial_value: false
-    influence_conversation: true
+    influence_conversation: false
   client_name:
     type: text
-    influence_conversation: true
+    influence_conversation: false
   client_phone:
     type: text
-    influence_conversation: true
+    influence_conversation: false
 forms:
   leads_form:
     required_slots:
@@ -188,8 +183,6 @@ forms:
           - type: from_entity
             entity: client_phone
 entities:
-  - company_name
-  - zone
   - client_phone
   - client_name
 session_config:

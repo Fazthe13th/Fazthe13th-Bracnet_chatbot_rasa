@@ -7,13 +7,39 @@
 
 # This is a simple example for a custom action which utters "Hello World!"
 
-from chatbot import actions
+# from chatbot import actions
+import psycopg2
 from typing import Any, Text, Dict, List
 
 from rasa_sdk import Action, Tracker
 from rasa_sdk.executor import CollectingDispatcher
 from rasa_sdk.events import SlotSet
 from rasa_sdk.types import DomainDict
+
+
+class DatabaseConnection():
+    def __init__(self) -> None:
+        self.db_name = "bracnet_chatbot"
+        self.db_user = "bracnet_chatbot"
+        self.db_password = "W28ASu2b"
+        self.db_host = "202.168.254.243"
+
+    def db_connect(self):
+        conn = psycopg2.connect(
+            host=self.db_host,
+            database=self.db_name,
+            user=self.db_user,
+            password=self.db_password)
+        cur = conn.cursor()
+        return cur
+
+    def QuerySalesContact(self, cur):
+        pass
+        cur.execute(
+            "SELECT * FROM ")
+        row = cur.fetchall()
+        cur.close()
+        return row
 
 
 class ActionHelloWorld(Action):
@@ -127,3 +153,21 @@ class ActionSubmit(Action):
 
         dispatcher.utter_message(Text="Thank you for your information")
         return [SlotSet("client_name", tracker.get_slot("client_name")), SlotSet("client_phone", tracker.get_slot("number"))]
+
+
+class ActionDefaultFallback(Action):
+
+    def name(self) -> Text:
+        return "action_default_fallback"
+
+    async def run(
+        self, dispatcher, tracker: Tracker, domain: Dict[Text, Any]
+    ) -> List[Dict[Text, Any]]:
+
+        # custom behavior
+        if tracker.slots.get("new_customer") is True:
+            dispatcher.utter_message(
+                response="utter_ask_rephrase")
+            dispatcher.utter_message(
+                response="utter_what_info_new_customer_needs")
+        return None
