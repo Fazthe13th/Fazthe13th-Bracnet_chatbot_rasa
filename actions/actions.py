@@ -9,6 +9,8 @@
 
 # from chatbot import actions
 import psycopg2
+import itertools
+from operator import itemgetter
 from typing import Any, Text, Dict, List
 
 from rasa_sdk import Action, Tracker
@@ -34,9 +36,8 @@ class DatabaseConnection():
         return cur
 
     def QuerySalesContact(self, cur):
-        pass
         cur.execute(
-            "SELECT * FROM ")
+            "SELECT contact_name,zone,sales_division,phone_number FROM public.tbl_sales_contact")
         row = cur.fetchall()
         cur.close()
         return row
@@ -104,8 +105,18 @@ class ActionSalesContact(Action):
     def run(self, dispatcher: CollectingDispatcher,
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-        package_text = "contact"
-        dispatcher.utter_message(text=package_text)
+        DbObject = DatabaseConnection()
+        DBConnection = DbObject.db_connect()
+        sales_rows_list = [list(i)
+                           for i in DbObject.QuerySalesContact(DBConnection)]
+        contact_str = ''
+        for key, group in itertools.groupby(sorted(sales_rows_list, key=itemgetter(2)), lambda x: x[2]):
+            for i in list(group):
+                for j in i:
+                    contact_str = contact_str + str(j) + ","
+                contact_str = contact_str[:-1]
+                contact_str += "\n"
+        dispatcher.utter_message(text=contact_str)
         return []
 
 
