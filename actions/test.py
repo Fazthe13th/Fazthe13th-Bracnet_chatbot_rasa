@@ -26,14 +26,27 @@ class DatabaseConnection():
         cur.close()
         return row
 
+    def QueryPackageInfo(self, cur):
+        cur.execute(
+            """SELECT package_name, package_price, otc
+            FROM public.tbl_internet_packages""")
+        row = cur.fetchall()
+        cur.close()
+        return row
 
+
+# DbObject = DatabaseConnection()
+# DBConnection = DbObject.db_connect()
+# sales_rows_list = [list(i) for i in DbObject.QuerySalesContact(DBConnection)]
+package_str = ''
 DbObject = DatabaseConnection()
 DBConnection = DbObject.db_connect()
-sales_rows_list = [list(i) for i in DbObject.QuerySalesContact(DBConnection)]
-contact_str = ''
-for key, group in itertools.groupby(sorted(sales_rows_list, key=itemgetter(2)), lambda x: x[2]):
-    for i in list(group):
-        for j in i:
-            contact_str = contact_str + str(j) + ","
-        contact_str = contact_str[:-1]
-        contact_str += "\n"
+package_info_list = [list(i)
+                     for i in DbObject.QueryPackageInfo(DBConnection)]
+for i in package_info_list:
+    package_str = package_str + \
+        str(i[0])+", package price: "+str(i[1]) + \
+        ", Installation charge: "+str(i[2])
+    package_str = package_str[:-1]
+    package_str += "\n"
+print(package_str)

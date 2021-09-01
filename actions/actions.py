@@ -42,6 +42,14 @@ class DatabaseConnection():
         cur.close()
         return row
 
+    def QueryPackageInfo(self, cur):
+        cur.execute(
+            """SELECT package_name, package_price, otc
+            FROM public.tbl_internet_packages""")
+        row = cur.fetchall()
+        cur.close()
+        return row
+
 
 class ActionHelloWorld(Action):
 
@@ -92,8 +100,18 @@ class ActionPackageInformation(Action):
     def run(self, dispatcher: CollectingDispatcher,
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-        package_text = "package"
-        dispatcher.utter_message(text=package_text)
+        package_str = ''
+        DbObject = DatabaseConnection()
+        DBConnection = DbObject.db_connect()
+        package_info_list = [list(i)
+                             for i in DbObject.QueryPackageInfo(DBConnection)]
+        for i in package_info_list:
+            package_str = package_str + \
+                str(i[0])+", package price: "+str(i[1]) + \
+                ", Installation charge: "+str(i[2])
+            package_str = package_str[:-1]
+            package_str += "\n"
+        dispatcher.utter_message(text=package_str)
         return []
 
 
