@@ -47,26 +47,32 @@ rules:
   steps: 
   - intent: available_services
   - action: utter_available_services
+  - action: utter_ask_anything_else
 - rule: Answer Managed service
   steps:
   - intent: managed_services
   - action: utter_managed_services
+  - action: utter_ask_anything_else
 - rule: Answer Video conferencing
   steps:
   - intent: video_conferencing
   - action: utter_video_conferencing
+  - action: utter_ask_anything_else
 - rule: Answer smart home
   steps:
   - intent: smart_home
   - action: utter_smart_home
+  - action: utter_ask_anything_else
 - rule: Answer Ip phone
   steps:
   - intent: IP_phone
   - action: utter_IP_phone
+  - action: utter_ask_anything_else
 - rule: Answer intranet
   steps:
   - intent: intranet
   - action: utter_intranet
+  - action: utter_ask_anything_else
 
 - rule: Say goodbye anytime the user says goodbye
   steps:
@@ -77,14 +83,17 @@ rules:
   steps:
   - intent: package_information
   - action: action_package_information
+  - action: utter_ask_anything_else
 - rule: Give salesperson contact anytime
   steps:
   - intent: sales_contact
   - action: action_sales_contact
+  - action: utter_ask_anything_else
 - rule: Give currently available zones anytime
   steps:
   - intent: available_zones
   - action: action_available_zones
+  - action: utter_ask_anything_else
 
 
 # - rule: respond to FAQs
@@ -120,4 +129,4 @@ rules:
   - active_loop: null
   - slot_was_set:
     - requested_slot: null
-  - action: action_submit_survey_form
+  - action: action_submit_leads_form

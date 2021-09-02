@@ -156,7 +156,7 @@ actions:
   - action_package_information
   - action_sales_contact
   - action_available_zones
-  - action_submit_survey_form
+  - action_submit_leads_form
   - action_default_fallback
 slots:
   new_customer:
@@ -176,12 +176,12 @@ slots:
 forms:
   leads_form:
     required_slots:
-        client_name:
-          - type: from_entity
-            entity: client_name
-        client_phone:
-          - type: from_entity
-            entity: client_phone
+      client_name:
+        - type: from_entity
+          entity: client_name
+      client_phone:
+        - type: from_entity
+          entity: client_phone
 entities:
   - client_phone
   - client_name

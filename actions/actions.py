@@ -151,7 +151,7 @@ class ActionAvailableZone(Action):
         return []
 
 
-class ValidateRestaurantForm(Action):
+class ValidateLeadsForm(Action):
     def name(self) -> Text:
         return "leads_form"
 
@@ -169,9 +169,9 @@ class ValidateRestaurantForm(Action):
         return [SlotSet("requested_slot", None)]
 
 
-class ActionSubmit(Action):
+class ActionSubmitLeadsForm(Action):
     def name(self) -> Text:
-        return "action_submit_survey_form"
+        return "action_submit_leads_form"
 
     def run(
         self,
@@ -180,8 +180,8 @@ class ActionSubmit(Action):
         domain: DomainDict,
     ) -> List[Dict[Text, Any]]:
 
-        dispatcher.utter_message(Text="Thank you for your information")
-        return [SlotSet("client_name", tracker.get_slot("client_name")), SlotSet("client_phone", tracker.get_slot("number"))]
+        dispatcher.utter_message(text="Thank you for your information")
+        return [SlotSet("client_name", tracker.get_slot("client_name")), SlotSet("client_phone", tracker.get_slot("client_phone"))]
 
 
 class ActionDefaultFallback(Action):
