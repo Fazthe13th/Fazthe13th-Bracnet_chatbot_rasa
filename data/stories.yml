@@ -76,6 +76,6 @@ stories:
   steps: 
   - intent: deny
   - action: utter_ask_personal_information
-  - intent: deny
-  - intent: goodbye
+  - intent: deny_information
   - action: utter_goodbye
+

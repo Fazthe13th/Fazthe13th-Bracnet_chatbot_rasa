@@ -13,7 +13,7 @@ import itertools
 from operator import itemgetter
 from typing import Any, Text, Dict, List
 
-from rasa_sdk import Action, Tracker
+from rasa_sdk import Action, Tracker, FormValidationAction
 from rasa_sdk.executor import CollectingDispatcher
 from rasa_sdk.events import SlotSet
 from rasa_sdk.types import DomainDict
@@ -151,22 +151,56 @@ class ActionAvailableZone(Action):
         return []
 
 
-class ValidateLeadsForm(Action):
+class ValidateNameForm(FormValidationAction):
     def name(self) -> Text:
-        return "leads_form"
+        return "validate_leads_form"
 
-    def run(
-        self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict
-    ) -> List[Dict[Text, Any]]:
-        required_slots = ["client_name", "client_phone"]
+    def validate_client_name(
+        self,
+        slot_value: Any,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: DomainDict,
+    ) -> Dict[Text, Any]:
+        """Validate `client_name` value."""
+        if len(slot_value) <= 2:
+            dispatcher.utter_message(
+                text=f"That's a very short name. I'm assuming you mis-spelled.")
+            return {"client_name": None}
+        else:
+            return {"client_name": slot_value}
 
-        for slot_name in required_slots:
-            if tracker.slots.get(slot_name) is None:
-                # The slot is not filled yet. Request the user to fill this slot next.
-                return [SlotSet("requested_slot", slot_name)]
+    def validate_client_phone(
+        self,
+        slot_value: Any,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: DomainDict,
+    ) -> Dict[Text, Any]:
+        """Validate `client_phone` value."""
+        if len(slot_value) <= 2:
+            dispatcher.utter_message(
+                text=f"That's a very short name. I'm assuming you mis-spelled.")
+            return {"client_phone": None}
+        else:
+            return {"client_phone": slot_value}
 
-        # All slots are filled.
-        return [SlotSet("requested_slot", None)]
+# class ValidateLeadsForm(Action):
+#     def name(self) -> Text:
+#         return "leads_form"
+
+#     def run(
+#         self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict
+#     ) -> List[Dict[Text, Any]]:
+#         required_slots = ["client_name", "client_phone"]
+
+#         for slot_name in required_slots:
+#             if tracker.slots.get(slot_name) is None:
+#                 # The slot is not filled yet. Request the user to fill this slot next.
+#                 return [SlotSet("requested_slot", slot_name)]
+
+#         # All slots are filled.
+#         return [SlotSet("requested_slot", None)]
 
 
 class ActionSubmitLeadsForm(Action):

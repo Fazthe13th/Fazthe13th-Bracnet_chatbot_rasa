@@ -1,5 +1,4 @@
 version: "2.0"
-
 nlu:
 - intent: greet
   examples: |
@@ -16,7 +15,7 @@ nlu:
     - goodmorning
     - goodevening
     - good afternoon
-
+    - Hello
 - intent: goodbye
   examples: |
     - good afternoon
@@ -30,7 +29,6 @@ nlu:
     - see you around
     - bye bye
     - see you later
-
 - intent: affirm
   examples: |
     - yes
@@ -39,7 +37,6 @@ nlu:
     - of course
     - that sounds good
     - correct
-
 - intent: deny
   examples: |
     - no
@@ -49,21 +46,17 @@ nlu:
     - don't like that
     - no way
     - not really
-
-
+- intent: deny_information
+  examples: |
+    - I do not want to provide my personal information
+    - No, I will not answer
+    - Not comfortable to share my personal information
 - intent: bot_challenge
   examples: |
     - are you a bot?
     - are you a human?
     - am I talking to a bot?
     - am I talking to a human?
-
-# Custom intents
-# - intent: query_intent
-#   examples: |
-#     - We have some queries
-#     - I would like to ask you some quetions
-#     - I am just asking for information
 - intent: new_customer
   examples: |
     - I am not your customer
@@ -81,6 +74,7 @@ nlu:
     - Can I have some general information
     - General quries related to your company
     - I would like to know about [Bracnet](company_name)
+    - what is [Bracnet](company_name)?
     - I am just asking for information
 - intent: isp_quires
   examples: |
@@ -122,8 +116,8 @@ nlu:
     - We would like to know about intranet
     - intranet for my organization
     - Do you provide intranet for company
-    - Does [Bracnet]{"entity":"company_name", "role":"vendor"} provide intranet service to [NPoly]{"entity":"company_name", "role":"client"}
-
+    - Does [Bracnet]{"entity": "company_name", "role": "vendor"} provide intranet service to [NPoly]{"entity": "company_name", "role": "client"}
+    - Will [Bracnet]{"entity": "company_name", "role": "vendor"} be able to provide intranet service to [Aman Group]{"entity": "company_name", "role": "client"}
 - intent: package_information
   examples: |
     - what are your internet packages
@@ -147,24 +141,25 @@ nlu:
     - I want to order food
     - What is 2 + 2?
     - Who's the US President?
+    - Aska vora tara
+    - Sky is blue
+    - Stupid chatbot
 - intent: client_name_intent
   examples: |
     - My name is [Evan](client_name)
+    - [Tanzim]{"entity": "client_name", "role": "first_name"} [Khan]{"entity": "client_name", "role": "last_name"}
     - People call me [Arif](client_name)
-    - My first name is [Fazlul]{"entity":"client_name", "role": "first_name"} and my last name is [Haque]{"entity":"client_name", "role": "last_name"}
-    - My first name is [Enamul]{"entity":"client_name", "role": "first_name"} and my last name is [Haque]{"entity":"client_name", "role": "last_name"}
+    - My first name is [Fazlul]{"entity": "client_name", "role": "first_name"} and my last name is [Haque]{"entity": "client_name", "role": "last_name"}
+    - My first name is [Enamul]{"entity": "client_name", "role": "first_name"} and my last name is [Haque]{"entity": "client_name", "role": "last_name"}
+    - My name is [Taufiqul]{"entity": "client_name", "role": "first_name"} [Islam]{"entity": "client_name", "role": "last_name"}
 - intent: client_phone_number
   examples: |
     - My phone number is [01839111179](client_phone)
     - [01715414804](client_phone) is my phone number
     - my mobile number is [01712066896](client_phone)
-
+    - [01839222267](client_phone)
 - intent: get_personal_information
   examples: |
     - Can I have your personal information?
     - I will need some persoal information for survey
     - May I ask you some personal questions?
-# - synonym: credit
-#   examples: |
-#     - credit card account
-#     - credit account
