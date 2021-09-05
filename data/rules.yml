@@ -2,37 +2,16 @@ version: "2.0"
 
 rules:
 
-# - rule: Say goodbye anytime the user says goodbye
-#   steps:
-#   - intent: goodbye
-#   - action: utter_goodbye
+- rule: Say goodbye anytime the user says goodbye
+  steps:
+  - intent: goodbye
+  - action: utter_goodbye
 
-# - rule: Say 'I am a bot' anytime the user challenges
-#   steps:
-#   - intent: bot_challenge
-#   - action: utter_iamabot
+- rule: Say 'I am a bot' anytime the user challenges
+  steps:
+  - intent: bot_challenge
+  - action: utter_iamabot
 
-# Custome rules
-
-# - rule: Rule which will wait for user message when it was applied
-#   steps:
-#   - intent: greet
-#   - action: utter_greet
-#   - action: utter_ask_old_or_new_customer
-#   wait_for_user_input: false
-
-# - rule: New customer path
-#   steps:
-#   - intent: new_customer
-#   - action: action_new_customer_response
-#   - action: utter_what_info_new_customer_needs
-# - rule: RDP/Old customer path
-#   # condition:
-#   #   - slot_was_set:
-#   #     - existing_customer: true
-#   steps:
-#   - intent: old_customer
-#   - action: action_old_customer_response
 
 
 - rule: Answer general quries anytime
@@ -74,10 +53,6 @@ rules:
   - action: utter_intranet
   - action: utter_ask_anything_else
 
-- rule: Say goodbye anytime the user says goodbye
-  steps:
-  - intent: goodbye
-  - action: utter_goodbye
 
 - rule: Give package information anytime
   steps:

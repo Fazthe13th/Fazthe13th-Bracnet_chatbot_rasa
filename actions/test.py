@@ -1,6 +1,7 @@
 import psycopg2
 import itertools
 from operator import itemgetter
+import json
 
 
 class DatabaseConnection():
@@ -16,8 +17,7 @@ class DatabaseConnection():
             database=self.db_name,
             user=self.db_user,
             password=self.db_password)
-        cur = conn.cursor()
-        return cur
+        return conn
 
     def QuerySalesContact(self, cur):
         cur.execute(
@@ -34,19 +34,52 @@ class DatabaseConnection():
         cur.close()
         return row
 
+    def QueryIntentBySenderID(self, conn, sender_id):
+        cur = conn.cursor()
+        cur.execute(
+            """SELECT intent_name
+            FROM public.events where sender_id = %s and intent_name IN (
+                'available_services','managed_services','video_conferencing',
+                'smart_home','IP_phone','intranet','package_information','sales_contact')""", (sender_id,))
+        row = cur.fetchall()
+        cur.close()
+        conn.close()
+        return row
+
+    def InsertIntoLeads(self, sender_id, client_name, client_phone, intents):
+        DbObject = DatabaseConnection()
+        conn = DbObject.db_connect()
+        sql = """INSERT INTO tbl_leads(sender_id, client_name, client_phone, intents)
+             VALUES(%s, %s, %s, %s)"""
+        try:
+            cur = conn.cursor()
+            cur.execute(sql, (sender_id, client_name, client_phone, intents))
+            # commit the changes to the database
+            conn.commit()
+            # close communication with the database
+            cur.close()
+        except (Exception, psycopg2.DatabaseError) as error:
+            print(error)
+
+        finally:
+            if conn is not None:
+                conn.close()
+
 
 # DbObject = DatabaseConnection()
 # DBConnection = DbObject.db_connect()
 # sales_rows_list = [list(i) for i in DbObject.QuerySalesContact(DBConnection)]
-package_str = ''
+sender_id = '68941c21437140bb984af3c89f97d948'
 DbObject = DatabaseConnection()
 DBConnection = DbObject.db_connect()
-package_info_list = [list(i)
-                     for i in DbObject.QueryPackageInfo(DBConnection)]
-for i in package_info_list:
-    package_str = package_str + \
-        str(i[0])+", package price: "+str(i[1]) + \
-        ", Installation charge: "+str(i[2])
-    package_str = package_str[:-1]
-    package_str += "\n"
-print(package_str)
+intents = DbObject.QueryIntentBySenderID(DBConnection, sender_id)
+count = 0
+lst = []
+for intent in intents:
+    lst.append(("intent_"+str(count), intent[0]))
+    count += 1
+
+rs = json.dumps(dict(lst))
+print(rs)
+DbObject.InsertIntoLeads(sender_id, client_name="Evan",
+                         client_phone="01836366667", intents=rs)

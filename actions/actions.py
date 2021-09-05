@@ -10,6 +10,7 @@
 # from chatbot import actions
 import psycopg2
 import itertools
+import json
 from operator import itemgetter
 from typing import Any, Text, Dict, List
 
@@ -32,23 +33,57 @@ class DatabaseConnection():
             database=self.db_name,
             user=self.db_user,
             password=self.db_password)
-        cur = conn.cursor()
-        return cur
+        return conn
 
-    def QuerySalesContact(self, cur):
+    def QuerySalesContact(self, conn):
+        cur = conn.cursor()
         cur.execute(
             "SELECT contact_name,zone,sales_division,phone_number FROM public.tbl_sales_contact")
         row = cur.fetchall()
         cur.close()
+        conn.close()
         return row
 
-    def QueryPackageInfo(self, cur):
+    def QueryPackageInfo(self, conn):
+        cur = conn.cursor()
         cur.execute(
             """SELECT package_name, package_price, otc
             FROM public.tbl_internet_packages""")
         row = cur.fetchall()
         cur.close()
+        conn.close()
         return row
+
+    def QueryIntentBySenderID(self, conn, sender_id):
+        cur = conn.cursor()
+        cur.execute(
+            """SELECT intent_name
+            FROM public.events where sender_id = %s and intent_name IN (
+                'available_services','managed_services','video_conferencing',
+                'smart_home','IP_phone','intranet','package_information','sales_contact')""", (sender_id,))
+        row = cur.fetchall()
+        cur.close()
+        conn.close()
+        return row
+
+    def InsertIntoLeads(self, sender_id, client_name, client_phone, intents):
+        DbObject = DatabaseConnection()
+        conn = DbObject.db_connect()
+        sql = """INSERT INTO tbl_leads(sender_id, client_name, client_phone, intents)
+             VALUES(%s, %s, %s, %s)"""
+        try:
+            cur = conn.cursor()
+            cur.execute(sql, (sender_id, client_name, client_phone, intents))
+            # commit the changes to the database
+            conn.commit()
+            # close communication with the database
+            cur.close()
+        except (Exception, psycopg2.DatabaseError) as error:
+            print(error)
+
+        finally:
+            if conn is not None:
+                conn.close()
 
 
 class ActionHelloWorld(Action):
@@ -185,23 +220,6 @@ class ValidateNameForm(FormValidationAction):
         else:
             return {"client_phone": slot_value}
 
-# class ValidateLeadsForm(Action):
-#     def name(self) -> Text:
-#         return "leads_form"
-
-#     def run(
-#         self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict
-#     ) -> List[Dict[Text, Any]]:
-#         required_slots = ["client_name", "client_phone"]
-
-#         for slot_name in required_slots:
-#             if tracker.slots.get(slot_name) is None:
-#                 # The slot is not filled yet. Request the user to fill this slot next.
-#                 return [SlotSet("requested_slot", slot_name)]
-
-#         # All slots are filled.
-#         return [SlotSet("requested_slot", None)]
-
 
 class ActionSubmitLeadsForm(Action):
     def name(self) -> Text:
@@ -213,8 +231,23 @@ class ActionSubmitLeadsForm(Action):
         tracker: Tracker,
         domain: DomainDict,
     ) -> List[Dict[Text, Any]]:
+        client_name_full = tracker.get_slot("client_name")
+        client_phone_number = tracker.get_slot("client_phone")
+        sender_id = tracker.current_state()['sender_id']
+        dispatcher.utter_message(
+            text=f"Thank you for your information, your name is {client_name_full} and phone number is {client_phone_number} and sender_id is {sender_id}")
+        DbObject = DatabaseConnection()
+        DBConnection = DbObject.db_connect()
+        intents = DbObject.QueryIntentBySenderID(DBConnection, sender_id)
+        count = 0
+        lst = []
+        for intent in intents:
+            lst.append(("intent_"+str(count), intent[0]))
+            count += 1
 
-        dispatcher.utter_message(text="Thank you for your information")
+        rs = json.dumps(dict(lst))
+        DbObject.InsertIntoLeads(sender_id, client_name_full,
+                                 client_phone_number, rs)
         return [SlotSet("client_name", tracker.get_slot("client_name")), SlotSet("client_phone", tracker.get_slot("client_phone"))]
 
 
