@@ -27,6 +27,8 @@ intents:
 - package_information
 - sales_contact
 - available_zones
+- organization_client
+- rdp_client
 - out_of_scope
 - client_name_intent:
     use_entities:
@@ -46,10 +48,24 @@ slots:
     type: bool
     initial_value: false
     influence_conversation: false
+  organization_client:
+    type: bool
+    initial_value: false
+    influence_conversation: false
+  rdp_client:
+    type: bool
+    initial_value: false
+    influence_conversation: false
   client_name:
     type: text
     influence_conversation: false
   client_phone:
+    type: text
+    influence_conversation: false
+  crm_id:
+    type: text
+    influence_conversation: false
+  crm_password:
     type: text
     influence_conversation: false
 responses:
@@ -96,7 +112,7 @@ responses:
     - title: ISP/Internet related quires
       payload: /isp_quires
   utter_old_customer_response:
-  - text: Hello welcome back. Can I have your User name and password for RDP information
+  - text: Hello welcome back.
   utter_available_services:
   - text: Our available service is listed on the landing page at [Bracnet.net](https://bracnet.net/)
   utter_managed_services:
@@ -117,11 +133,17 @@ responses:
   utter_happy:
   - text: Great, carry on!
   utter_goodbye:
-  - text: Ok bye, come back anytime. 
+  - text: Ok bye, come back anytime.
+  # form question
   utter_ask_client_name:
   - text: May I have your name please?
   utter_ask_client_phone:
   - text: Also can I have your phone number for future reference?
+  utter_ask_crm_id:
+  - text: What is your branch ID?
+  utter_ask_crm_password:
+  - text: Got it. What is your password?
+  # from questions end
   utter_details_thanks:
   - text: Thanks I will try to remember that
   utter_iamabot:
@@ -144,6 +166,15 @@ responses:
       payload: /get_personal_information
     - title: No
       payload: /deny_information
+  # Organization nad RDP
+  utter_ask_oraganization_RDP:
+  - text: Chose the type of customer your are
+    buttons:
+    - title: Oraganization
+      payload: /organization_client
+    - title: Home connectivity/RDP
+      payload: /rdp_client
+  
 actions:
 - action_available_zones
 - action_default_fallback
@@ -151,14 +182,22 @@ actions:
 - action_old_customer_response
 - action_package_information
 - action_sales_contact
+- action_organization_client
+- action_rdp_client
 - action_submit_leads_form
+- action_submit_organization_form
 - validate_leads_form
+- validate_organization_form
 forms:
   leads_form:
-    required_slots:
       client_name:
       - type: from_entity
         entity: client_name
       client_phone:
       - type: from_entity
         entity: client_phone
+  organization_form:
+      crm_id:
+      - type: from_text
+      crm_password:
+      - type: from_text

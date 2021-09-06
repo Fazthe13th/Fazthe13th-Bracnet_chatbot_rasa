@@ -124,7 +124,36 @@ class ActionSetExistingCustomer(Action):
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
 
         dispatcher.utter_message(response="utter_old_customer_response")
+        dispatcher.utter_message(response="utter_ask_oraganization_RDP")
         return [SlotSet("new_customer", False), SlotSet("existing_customer", True)]
+
+
+class ActionOrganizationClient(Action):
+
+    def name(self) -> Text:
+        return "action_organization_client"
+
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+
+        # dispatcher.utter_message(response="utter_old_customer_response")
+        # dispatcher.utter_message(response="utter_ask_oraganization_RDP")
+        return [SlotSet("organization_client", True), SlotSet("rdp_client", False)]
+
+
+class ActionRDPClient(Action):
+
+    def name(self) -> Text:
+        return "action_rdp_client"
+
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+
+        dispatcher.utter_message(response="utter_old_customer_response")
+        # dispatcher.utter_message(response="utter_ask_oraganization_RDP")
+        return [SlotSet("oganization_client", False), SlotSet("rdp_client", True)]
 
 
 class ActionPackageInformation(Action):
@@ -186,7 +215,7 @@ class ActionAvailableZone(Action):
         return []
 
 
-class ValidateNameForm(FormValidationAction):
+class ValidateLeadsForm(FormValidationAction):
     def name(self) -> Text:
         return "validate_leads_form"
 
@@ -249,6 +278,59 @@ class ActionSubmitLeadsForm(Action):
         DbObject.InsertIntoLeads(sender_id, client_name_full,
                                  client_phone_number, rs)
         return [SlotSet("client_name", tracker.get_slot("client_name")), SlotSet("client_phone", tracker.get_slot("client_phone"))]
+
+
+class ValidateOraganizationForm(FormValidationAction):
+    def name(self) -> Text:
+        return "validate_organization_form"
+
+    def validate_crm_id(
+        self,
+        slot_value: Any,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: DomainDict,
+    ) -> Dict[Text, Any]:
+        """Validate `crm_id` value."""
+        if len(slot_value) <= 2:
+            dispatcher.utter_message(
+                text=f"That's a very short name. I'm assuming you mis-spelled.")
+            return {"crm_id": None}
+        else:
+            return {"crm_id": slot_value}
+
+    def validate_crm_password(
+        self,
+        slot_value: Any,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: DomainDict,
+    ) -> Dict[Text, Any]:
+        """Validate `crm_password` value."""
+        if len(slot_value) <= 2:
+            dispatcher.utter_message(
+                text=f"That's a very short name. I'm assuming you mis-spelled.")
+            return {"crm_password": None}
+        else:
+            return {"crm_password": slot_value}
+
+
+class ActionSubmitOrganizationForm(Action):
+    def name(self) -> Text:
+        return "action_submit_organization_form"
+
+    def run(
+        self,
+        dispatcher,
+        tracker: Tracker,
+        domain: DomainDict,
+    ) -> List[Dict[Text, Any]]:
+        crm_id = tracker.get_slot("crm_id")
+        crm_password = tracker.get_slot("crm_password")
+        dispatcher.utter_message(
+            text=f"Thank you")
+
+        return [SlotSet("crm_id", crm_id), SlotSet("crm_password", crm_password)]
 
 
 class ActionDefaultFallback(Action):

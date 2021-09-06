@@ -71,6 +71,7 @@ rules:
   - action: utter_ask_anything_else
 
 
+
 # - rule: respond to FAQs
 #   steps:
 #   - intent: faq
@@ -105,3 +106,20 @@ rules:
   - slot_was_set:
     - requested_slot: null
   - action: action_submit_leads_form
+
+- rule: Activate Oraganization form
+  steps:
+  - intent: organization_client
+  - action: action_organization_client
+  - action: organization_form
+  - active_loop: organization_form
+- rule: Submit oraganization form
+  condition:
+  # Condition that form is active
+  - active_loop: organization_form
+  steps:
+  - action: organization_form
+  - active_loop: null
+  - slot_was_set:
+    - requested_slot: null
+  - action: action_submit_organization_form

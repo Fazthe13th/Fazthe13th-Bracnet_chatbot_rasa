@@ -149,6 +149,7 @@ nlu:
     - My name is [Evan](client_name)
     - [Tanzim]{"entity": "client_name", "role": "first_name"} [Khan]{"entity": "client_name", "role": "last_name"}
     - People call me [Arif](client_name)
+    - [fazlul haque](client_name)
     - My first name is [Fazlul]{"entity": "client_name", "role": "first_name"} and my last name is [Haque]{"entity": "client_name", "role": "last_name"}
     - My first name is [Enamul]{"entity": "client_name", "role": "first_name"} and my last name is [Haque]{"entity": "client_name", "role": "last_name"}
     - My name is [Taufiqul]{"entity": "client_name", "role": "first_name"} [Islam]{"entity": "client_name", "role": "last_name"}
@@ -163,3 +164,16 @@ nlu:
     - Can I have your personal information?
     - I will need some persoal information for survey
     - May I ask you some personal questions?
+
+# Organization and RDP
+- intent: organization_client
+  examples: |
+    - we from an organization
+    - we are organization client
+    - from head office
+    - this is from group of company
+- intent: rdp_client
+  examples: |
+    - Home connectivity
+    - Home internet client
+    - personal internet
