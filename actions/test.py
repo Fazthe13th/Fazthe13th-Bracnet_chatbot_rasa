@@ -46,6 +46,16 @@ class DatabaseConnection():
         conn.close()
         return row
 
+    def QueryCRMID(self, conn, crm_id):
+        cur = conn.cursor()
+        cur.execute(
+            """SELECT org_crm_id
+            FROM public.tbl_organization_cred where org_crm_id = %s """, (crm_id,))
+        row = cur.fetchone()
+        cur.close()
+        conn.close()
+        return row
+
     def InsertIntoLeads(self, sender_id, client_name, client_phone, intents):
         DbObject = DatabaseConnection()
         conn = DbObject.db_connect()
@@ -69,17 +79,8 @@ class DatabaseConnection():
 # DbObject = DatabaseConnection()
 # DBConnection = DbObject.db_connect()
 # sales_rows_list = [list(i) for i in DbObject.QuerySalesContact(DBConnection)]
-sender_id = '68941c21437140bb984af3c89f97d948'
+crm_id = '10010 '.strip()
 DbObject = DatabaseConnection()
 DBConnection = DbObject.db_connect()
-intents = DbObject.QueryIntentBySenderID(DBConnection, sender_id)
-count = 0
-lst = []
-for intent in intents:
-    lst.append(("intent_"+str(count), intent[0]))
-    count += 1
-
-rs = json.dumps(dict(lst))
-print(rs)
-DbObject.InsertIntoLeads(sender_id, client_name="Evan",
-                         client_phone="01836366667", intents=rs)
+intents = DbObject.QueryCRMID(DBConnection, crm_id)
+print(intents)

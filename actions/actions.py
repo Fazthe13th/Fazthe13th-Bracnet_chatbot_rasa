@@ -66,6 +66,16 @@ class DatabaseConnection():
         conn.close()
         return row
 
+    def QueryCRMID(self, conn, crm_id):
+        cur = conn.cursor()
+        cur.execute(
+            """SELECT org_crm_id
+            FROM public.tbl_organization_cred where org_crm_id = %s """, (crm_id,))
+        row = cur.fetchone()
+        cur.close()
+        conn.close()
+        return row
+
     def InsertIntoLeads(self, sender_id, client_name, client_phone, intents):
         DbObject = DatabaseConnection()
         conn = DbObject.db_connect()
@@ -292,9 +302,13 @@ class ValidateOraganizationForm(FormValidationAction):
         domain: DomainDict,
     ) -> Dict[Text, Any]:
         """Validate `crm_id` value."""
-        if len(slot_value) <= 2:
+        crm_id = str(slot_value).strip()
+        DbObject = DatabaseConnection()
+        DBConnection = DbObject.db_connect()
+        crm_id_row = DbObject.QueryCRMID(DBConnection, crm_id)
+        if crm_id_row is None:
             dispatcher.utter_message(
-                text=f"That's a very short name. I'm assuming you mis-spelled.")
+                text=f"Sorry cound not find any branch id with {crm_id}")
             return {"crm_id": None}
         else:
             return {"crm_id": slot_value}
@@ -309,7 +323,7 @@ class ValidateOraganizationForm(FormValidationAction):
         """Validate `crm_password` value."""
         if len(slot_value) <= 2:
             dispatcher.utter_message(
-                text=f"That's a very short name. I'm assuming you mis-spelled.")
+                text=f"Password should not be that short.")
             return {"crm_password": None}
         else:
             return {"crm_password": slot_value}
