@@ -179,6 +179,42 @@ nlu:
     - Home connectivity
     - Home internet client
     - personal internet
+- intent: organization_number_of_links
+  examples: |
+    - Number of links in my organization
+    - How many links do I have in my company
+    - what are the number of links company is using
+- intent: organization_bandwidth
+  examples: |
+    - My organization bandwidth
+    - what is my company internet connection speed
+    - what is company's bandwidth
+- intent: organization_last_payment_info
+  examples: |
+    - when did we last paid our bill
+    - last payment from our comany
+    - give me information of our comany's last payment
+- intent: organization_current_package
+  examples: |
+    - which package our company using right now
+    - give me company package information
+    - what package company currently using
+- intent: oraganization_next_payment
+  examples: |
+    - what is company's next payemnt date
+    - when will we have to pay next bill for organization
+    - company next payment
+- intent: oraganization_create_ticket
+  examples: |
+    - I want to create ticket for my comany
+    - i have some complain about company's internet connection
+    - I want to generate a ticket against a complaint
+- intent: organization_current_active_ticket
+  examples: |
+    - I want to know about my organization's current active tickets
+    - what are company's active tickets
+    - what tickets do our company have right now
+
 # - regex: client_phone
 #   examples: |
 #     - ^(((?:\+88)?(?:\d{11}))|((?:01)?(?:\d{11})))$

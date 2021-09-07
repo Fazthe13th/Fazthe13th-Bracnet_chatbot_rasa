@@ -29,6 +29,13 @@ intents:
 - available_zones
 - organization_client
 - rdp_client
+- organization_number_of_links
+- organization_bandwidth
+- organization_last_payment_info
+- organization_current_package
+- oraganization_next_payment
+- oraganization_create_ticket
+- organization_current_active_ticket
 - out_of_scope
 # - client_name_intent
 # - client_phone_number
@@ -49,6 +56,14 @@ slots:
     initial_value: false
     influence_conversation: false
   rdp_client:
+    type: bool
+    initial_value: false
+    influence_conversation: false
+  org_logged_in:
+    type: bool
+    initial_value: false
+    influence_conversation: false
+  rdp_logged_in:
     type: bool
     initial_value: false
     influence_conversation: false
@@ -138,7 +153,7 @@ responses:
   utter_ask_crm_id:
   - text: What is your branch ID?
   utter_ask_crm_password:
-  - text: Got it. What is your password?
+  - text: What is your password?
   # from questions end
   utter_details_thanks:
   - text: Thanks I will try to remember that
@@ -170,6 +185,23 @@ responses:
       payload: /organization_client
     - title: Home connectivity/RDP
       payload: /rdp_client
+  utter_ask_organization_options:
+  - text: What do you want to know?
+    buttons:
+    - title: Number of links
+      payload: /organization_number_of_links
+    - title: My Bandwidth
+      payload: /organization_bandwidth
+    - title: Last Payment Information
+      payload: /organization_last_payment_info
+    - title: Current active package
+      payload: /organization_current_package
+    - title: Next payment date
+      payload: /oraganization_next_payment
+    - title: Create ticket
+      payload: /oraganization_create_ticket
+    - title: Current active ticket
+      payload: /organization_current_active_ticket
   
 actions:
 - action_available_zones
@@ -182,6 +214,13 @@ actions:
 - action_rdp_client
 - action_submit_leads_form
 - action_submit_organization_form
+- action_organization_number_of_links
+- action_organization_bandwidth
+- action_organization_last_payment_info
+- action_organization_current_package
+- action_oraganization_next_payment
+- action_oraganization_create_ticket
+- action_organization_current_active_ticket
 - validate_leads_form
 - validate_organization_form
 forms:

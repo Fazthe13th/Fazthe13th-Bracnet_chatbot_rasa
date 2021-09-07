@@ -56,6 +56,16 @@ class DatabaseConnection():
         conn.close()
         return row
 
+    def QueryCRMLogin(self, conn, crm_id, crm_password):
+        cur = conn.cursor()
+        cur.execute(
+            """SELECT org_crm_id,org_name
+            FROM public.tbl_organization_cred where org_crm_id = %s and org_password = %s""", (crm_id, crm_password))
+        row = cur.fetchone()
+        cur.close()
+        conn.close()
+        return row
+
     def InsertIntoLeads(self, sender_id, client_name, client_phone, intents):
         DbObject = DatabaseConnection()
         conn = DbObject.db_connect()
@@ -80,7 +90,8 @@ class DatabaseConnection():
 # DBConnection = DbObject.db_connect()
 # sales_rows_list = [list(i) for i in DbObject.QuerySalesContact(DBConnection)]
 crm_id = '10010 '.strip()
+crm_password = "12345".strip()
 DbObject = DatabaseConnection()
 DBConnection = DbObject.db_connect()
-intents = DbObject.QueryCRMID(DBConnection, crm_id)
-print(intents)
+intents = DbObject.QueryCRMLogin(DBConnection, crm_id, crm_password)
+print(intents[1])

@@ -123,3 +123,59 @@ rules:
   - slot_was_set:
     - requested_slot: null
   - action: action_submit_organization_form
+
+#  Organization rules
+- rule: organization number of links
+  condition:
+  - slot_was_set:
+    - org_logged_in: true
+  steps:
+  - intent: organization_number_of_links
+  - action: action_organization_number_of_links
+- rule: organization bandwidth
+  condition:
+  - slot_was_set:
+    - org_logged_in: true
+  steps:
+  - intent: organization_bandwidth
+  - action: action_organization_bandwidth
+
+- rule: organization last payment info
+  condition:
+  - slot_was_set:
+    - org_logged_in: true
+  steps:
+  - intent: organization_last_payment_info
+  - action: action_organization_last_payment_info
+
+- rule: organization current package
+  condition:
+  - slot_was_set:
+    - org_logged_in: true
+  steps:
+  - intent: organization_current_package
+  - action: action_organization_current_package
+
+- rule: oraganization next payment
+  condition:
+  - slot_was_set:
+    - org_logged_in: true
+  steps:
+  - intent: oraganization_next_payment
+  - action: action_oraganization_next_payment
+
+- rule: oraganization create ticket
+  condition:
+  - slot_was_set:
+    - org_logged_in: true
+  steps:
+  - intent: oraganization_create_ticket
+  - action: action_oraganization_create_ticket
+
+- rule: organization current active ticket
+  condition:
+  - slot_was_set:
+    - org_logged_in: true
+  steps:
+  - intent: organization_current_active_ticket
+  - action: action_organization_current_active_ticket

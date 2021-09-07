@@ -76,6 +76,16 @@ class DatabaseConnection():
         conn.close()
         return row
 
+    def QueryCRMLogin(self, conn, crm_id, crm_password):
+        cur = conn.cursor()
+        cur.execute(
+            """SELECT org_crm_id,org_name
+            FROM public.tbl_organization_cred where org_crm_id = %s and org_password = %s""", (crm_id, crm_password))
+        row = cur.fetchone()
+        cur.close()
+        conn.close()
+        return row
+
     def InsertIntoLeads(self, sender_id, client_name, client_phone, intents):
         DbObject = DatabaseConnection()
         conn = DbObject.db_connect()
@@ -321,12 +331,24 @@ class ValidateOraganizationForm(FormValidationAction):
         domain: DomainDict,
     ) -> Dict[Text, Any]:
         """Validate `crm_password` value."""
-        if len(slot_value) <= 2:
+        crm_id = str(tracker.get_slot("crm_id")).strip()
+        crm_password = str(tracker.get_slot("crm_password")).strip()
+        DbObject = DatabaseConnection()
+        DBConnection = DbObject.db_connect()
+        login = DbObject.QueryCRMLogin(DBConnection, crm_id, crm_password)
+        if login is None:
             dispatcher.utter_message(
-                text=f"Password should not be that short.")
+                text=f"Sorry your username and password did not match. Please give the password again.")
             return {"crm_password": None}
         else:
+            dispatcher.utter_message(text=f"Welcome {login[1]}")
             return {"crm_password": slot_value}
+        # if len(slot_value) <= 2:
+        #     dispatcher.utter_message(
+        #         text=f"Password should not be that short.")
+        #     return {"crm_password": None}
+        # else:
+        #     return {"crm_password": slot_value}
 
 
 class ActionSubmitOrganizationForm(Action):
@@ -339,12 +361,102 @@ class ActionSubmitOrganizationForm(Action):
         tracker: Tracker,
         domain: DomainDict,
     ) -> List[Dict[Text, Any]]:
-        crm_id = tracker.get_slot("crm_id")
-        crm_password = tracker.get_slot("crm_password")
-        dispatcher.utter_message(
-            text=f"Thank you")
+        crm_id = str(tracker.get_slot("crm_id")).strip()
+        crm_password = str(tracker.get_slot("crm_password")).strip()
+        dispatcher.utter_message(response="utter_ask_organization_options")
+        return [SlotSet("crm_id", crm_id), SlotSet("crm_password", crm_password), SlotSet("org_logged_in", True), SlotSet("rdp_logged_in", False)]
 
-        return [SlotSet("crm_id", crm_id), SlotSet("crm_password", crm_password)]
+
+class ActionOraganizationNumberofLinks(Action):
+
+    def name(self) -> Text:
+        return "action_organization_number_of_links"
+
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+
+        dispatcher.utter_message(text="Organization number of links")
+        return []
+
+
+class ActionOrganizationBandwidth(Action):
+
+    def name(self) -> Text:
+        return "action_organization_bandwidth"
+
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+
+        dispatcher.utter_message(text="Organization Bandwidth")
+        return []
+
+
+class ActionOrganizationLastPaymentInfo(Action):
+
+    def name(self) -> Text:
+        return "action_organization_last_payment_info"
+
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+
+        dispatcher.utter_message(text="Organization last payment info")
+        return []
+
+
+class ActionOrganizationCurrentPackage(Action):
+
+    def name(self) -> Text:
+        return "action_organization_current_package"
+
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+
+        dispatcher.utter_message(text="Organization current package")
+        return []
+
+
+class ActionOrganizationNextPayment(Action):
+
+    def name(self) -> Text:
+        return "action_oraganization_next_payment"
+
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+
+        dispatcher.utter_message(text="Organization next payment")
+        return []
+
+
+class ActionOrganizationCreateTicket(Action):
+
+    def name(self) -> Text:
+        return "action_oraganization_create_ticket"
+
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+
+        dispatcher.utter_message(text="Organization create ticket")
+        return []
+
+
+class ActionOrganizationCurrentActiveTicket(Action):
+
+    def name(self) -> Text:
+        return "action_organization_current_active_ticket"
+
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+
+        dispatcher.utter_message(text="Organization current active ticket")
+        return []
+# Fall back action override
 
 
 class ActionDefaultFallback(Action):
@@ -362,4 +474,12 @@ class ActionDefaultFallback(Action):
                 response="utter_ask_rephrase")
             dispatcher.utter_message(
                 response="utter_what_info_new_customer_needs")
+        elif tracker.slots.get("org_logged_in") is True and tracker.slots.get("rdp_logged_in") is False:
+            dispatcher.utter_message(
+                response="utter_ask_rephrase")
+            dispatcher.utter_message(
+                response="utter_ask_organization_options")
+        else:
+            dispatcher.utter_message(
+                response="utter_ask_rephrase")
         return None
