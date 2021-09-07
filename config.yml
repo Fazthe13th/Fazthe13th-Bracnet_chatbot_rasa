@@ -4,7 +4,6 @@ language: en
 pipeline:
   - name: WhitespaceTokenizer
   - name: RegexFeaturizer
-  - name: RegexEntityExtractor
   - name: LexicalSyntacticFeaturizer
   - name: CountVectorsFeaturizer
   - name: CountVectorsFeaturizer
@@ -13,7 +12,7 @@ pipeline:
     max_ngram: 4
   - name: DIETClassifier
     epochs: 100
-    constrain_similarities: true
+    # constrain_similarities: true
   - name: EntitySynonymMapper
   - name: ResponseSelector
     epochs: 100

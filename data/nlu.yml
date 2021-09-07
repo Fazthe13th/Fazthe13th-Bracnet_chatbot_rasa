@@ -144,26 +144,28 @@ nlu:
     - Aska vora tara
     - Sky is blue
     - Stupid chatbot
-- intent: client_name_intent
-  examples: |
-    - My name is [Evan]{"entity": "client_name"}
-    - [Tanzim]{"entity": "client_name", "role": "first_name"} [Khan]{"entity": "client_name", "role": "last_name"}
-    - People call me [Arif]{"entity": "client_name"}
-    - [fazlul haque]{"entity": "client_name"}
-    - My first name is [Fazlul]{"entity": "client_name", "role": "first_name"} and my last name is [Haque]{"entity": "client_name", "role": "last_name"}
-    - My first name is [Enamul]{"entity": "client_name", "role": "first_name"} and my last name is [Haque]{"entity": "client_name", "role": "last_name"}
-    - My name is [Taufiqul]{"entity": "client_name", "role": "first_name"} [Islam]{"entity": "client_name", "role": "last_name"}
-- intent: client_phone_number
-  examples: |
-    - My phone number is [01839111179]{"entity": "client_phone"}
-    - [01715414804]{"entity": "client_phone"} is my phone number
-    - my mobile number is [01712066896]{"entity": "client_phone"}
-    - [01839222267]{"entity": "client_phone"}
-- intent: get_personal_information
-  examples: |
-    - Can I have your personal information?
-    - I will need some persoal information for survey
-    - May I ask you some personal questions?
+# - intent: client_name_intent
+#   examples: |
+#     - My name is Evan
+#     - Tanzim Khan
+#     - People call me Arif
+#     - fazlul haque
+#     - My first name is Fazlul and my last name is Haque
+#     - My first name is Enamul and my last name is Haque
+#     - My name is Taufiqul Islam
+# - intent: client_phone_number
+#   examples: |
+#     - My phone number is 01839111179
+#     - 01715414804 is my phone number
+#     - my mobile number is 01712066896
+#     - 01839222267
+#     - +8801623678909
+#     - 01712066896
+# - intent: get_personal_information
+#   examples: |
+#     - Can I have your personal information?
+#     - I will need some persoal information for survey
+#     - May I ask you some personal questions?
 
 # Organization and RDP
 - intent: organization_client
@@ -177,7 +179,8 @@ nlu:
     - Home connectivity
     - Home internet client
     - personal internet
-- regex: client_phone
-  examples: |
-    - ^(((?:\+88)?(?:\d{11}))|((?:01)?(?:\d{11})))$
+# - regex: client_phone
+#   examples: |
+#     - ^(((?:\+88)?(?:\d{11}))|((?:01)?(?:\d{11})))$
+#     - ^(?:\+?88)?01[15-9]\d{8}$
   

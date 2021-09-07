@@ -30,12 +30,8 @@ intents:
 - organization_client
 - rdp_client
 - out_of_scope
-- client_name_intent:
-    use_entities:
-    - client_name
-- client_phone_number:
-    use_entities:
-    - client_phone
+# - client_name_intent
+# - client_phone_number
 entities:
 - client_name
 - client_phone
@@ -191,11 +187,9 @@ actions:
 forms:
   leads_form:
       client_name:
-      - type: from_entity
-        entity: client_name
+      - type: from_text
       client_phone:
-      - type: from_entity
-        entity: client_phone
+      - type: from_text
   organization_form:
       crm_id:
       - type: from_text
