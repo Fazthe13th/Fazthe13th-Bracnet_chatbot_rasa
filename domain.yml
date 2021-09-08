@@ -1,7 +1,7 @@
 version: '2.0'
 session_config:
-  session_expiration_time: 60
-  carry_over_slots_to_new_session: true
+  session_expiration_time: 5
+  carry_over_slots_to_new_session: false
 intents:
 - greet
 - goodbye
@@ -62,7 +62,7 @@ slots:
   org_logged_in:
     type: bool
     initial_value: false
-    influence_conversation: false
+    influence_conversation: true
   rdp_logged_in:
     type: bool
     initial_value: false
