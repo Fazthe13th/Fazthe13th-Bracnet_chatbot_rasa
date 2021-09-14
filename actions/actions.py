@@ -9,6 +9,8 @@
 
 # from chatbot import actions
 import psycopg2
+import mysql.connector
+import datetime
 import itertools
 import json
 from operator import itemgetter
@@ -26,6 +28,10 @@ class DatabaseConnection():
         self.db_user = "bracnet_chatbot"
         self.db_password = "W28ASu2b"
         self.db_host = "202.168.254.243"
+        self.bnsystem_db_name = "bnsystem"
+        self.bnsystem_db_user = "root"
+        self.bnsystem_db_password = "9256174"
+        self.bnsystem_db_host = "115.127.200.6"
 
     def db_connect(self):
         conn = psycopg2.connect(
@@ -34,6 +40,14 @@ class DatabaseConnection():
             user=self.db_user,
             password=self.db_password)
         return conn
+
+    def bnsystem_db_connect(self):
+        conn_bnsystem = mysql.connector.connect(
+            host=self.bnsystem_db_host,
+            user=self.bnsystem_db_user,
+            password=self.bnsystem_db_password
+        )
+        return conn_bnsystem
 
     def QuerySalesContact(self, conn):
         cur = conn.cursor()
@@ -104,6 +118,33 @@ class DatabaseConnection():
         finally:
             if conn is not None:
                 conn.close()
+    # 360 specific functions
+
+    def QueryLastPayment(self, conn, crm_id):
+        cur = conn.cursor()
+        cur.execute(
+            """SELECT TransAmountAdd,TransAmountSub,TransDate,TransStatusId 
+            FROM bnsystem.view_billing_account_trans_master 
+            where ClientId = %s and TransStatusId in (11,13) 
+            order by TransDate desc 
+            limit 1""", (crm_id,))
+        row = cur.fetchone()
+        cur.close()
+        conn.close()
+        return row
+
+    def QueryNextPayment(self, conn, crm_id):
+        cur = conn.cursor()
+        cur.execute(
+            """SELECT sum(UnitSalePrice),BillingStartDate, BilledUptoDate,CycleDayValue,BillingTypeName 
+            FROM bnsystem.view_billing_clients_service_profile 
+            where ClientId= %s and ServiceStatusId = 3 and BillingTypeName != "One Time Bill" 
+            order by BilledUptoDate desc 
+            limit 1""", (crm_id,))
+        row = cur.fetchone()
+        cur.close()
+        conn.close()
+        return row
 
 
 class ActionHelloWorld(Action):
@@ -367,30 +408,30 @@ class ActionSubmitOrganizationForm(Action):
         return [SlotSet("crm_id", crm_id), SlotSet("crm_password", crm_password), SlotSet("org_logged_in", True), SlotSet("rdp_logged_in", False)]
 
 
-class ActionOraganizationNumberofLinks(Action):
+# class ActionOraganizationNumberofLinks(Action):
 
-    def name(self) -> Text:
-        return "action_organization_number_of_links"
+#     def name(self) -> Text:
+#         return "action_organization_number_of_links"
 
-    def run(self, dispatcher: CollectingDispatcher,
-            tracker: Tracker,
-            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+#     def run(self, dispatcher: CollectingDispatcher,
+#             tracker: Tracker,
+#             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
 
-        dispatcher.utter_message(text="Organization number of links")
-        return []
+#         dispatcher.utter_message(text="Organization number of links")
+#         return []
 
 
-class ActionOrganizationBandwidth(Action):
+# class ActionOrganizationBandwidth(Action):
 
-    def name(self) -> Text:
-        return "action_organization_bandwidth"
+#     def name(self) -> Text:
+#         return "action_organization_bandwidth"
 
-    def run(self, dispatcher: CollectingDispatcher,
-            tracker: Tracker,
-            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+#     def run(self, dispatcher: CollectingDispatcher,
+#             tracker: Tracker,
+#             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
 
-        dispatcher.utter_message(text="Organization Bandwidth")
-        return []
+#         dispatcher.utter_message(text="Organization Bandwidth")
+#         return []
 
 
 class ActionOrganizationLastPaymentInfo(Action):
@@ -401,22 +442,32 @@ class ActionOrganizationLastPaymentInfo(Action):
     def run(self, dispatcher: CollectingDispatcher,
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-
-        dispatcher.utter_message(text="Organization last payment info")
+        DbObject = DatabaseConnection()
+        if tracker.get_slot("org_logged_in") is True:
+            crm_id = str(tracker.get_slot("crm_id")).strip()
+            # crm_password = str(tracker.get_slot("crm_password")).strip()
+            BnSystemDBConnection = DbObject.bnsystem_db_connect()
+            lastPayment = DbObject.QueryLastPayment(
+                BnSystemDBConnection, crm_id)
+            dispatcher.utter_message(
+                text=f"Paid amount {lastPayment[0]}, Billed amount {lastPayment[1]}, payment date {lastPayment[2]} and bill status is {'unapproved' if lastPayment[3] == 11 else 'approved'}")
+        else:
+            dispatcher.utter_message(text="Your are not logged in yet")
+            dispatcher.utter_message(response="utter_ask_oraganization_RDP")
         return []
 
 
-class ActionOrganizationCurrentPackage(Action):
+# class ActionOrganizationCurrentPackage(Action):
 
-    def name(self) -> Text:
-        return "action_organization_current_package"
+#     def name(self) -> Text:
+#         return "action_organization_current_package"
 
-    def run(self, dispatcher: CollectingDispatcher,
-            tracker: Tracker,
-            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+#     def run(self, dispatcher: CollectingDispatcher,
+#             tracker: Tracker,
+#             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
 
-        dispatcher.utter_message(text="Organization current package")
-        return []
+#         dispatcher.utter_message(text="Organization current package")
+#         return []
 
 
 class ActionOrganizationNextPayment(Action):
@@ -427,8 +478,19 @@ class ActionOrganizationNextPayment(Action):
     def run(self, dispatcher: CollectingDispatcher,
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        DbObject = DatabaseConnection()
+        if tracker.get_slot("org_logged_in") is True:
+            crm_id = str(tracker.get_slot("crm_id")).strip()
+            # crm_password = str(tracker.get_slot("crm_password")).strip()
+            BnSystemDBConnection = DbObject.bnsystem_db_connect()
+            nextPayment = DbObject.QueryNextPayment(
+                BnSystemDBConnection, crm_id)
+            dispatcher.utter_message(
+                text=f"Your next bill amount is {nextPayment[0]}, Next possible bill date will be {nextPayment[1]+ datetime.timedelta(days=nextPayment[3]) if nextPayment[2] == '0000-00-00' else nextPayment[2]+ datetime.timedelta(days=nextPayment[3])}")
+        else:
+            dispatcher.utter_message(text="Your are not logged in yet")
+            dispatcher.utter_message(response="utter_ask_oraganization_RDP")
 
-        dispatcher.utter_message(text="Organization next payment")
         return []
 
 
@@ -440,8 +502,12 @@ class ActionOrganizationCreateTicket(Action):
     def run(self, dispatcher: CollectingDispatcher,
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        if tracker.get_slot("org_logged_in") is True:
+            dispatcher.utter_message(text="Organization create ticket")
+        else:
+            dispatcher.utter_message(text="Your are not logged in yet")
+            dispatcher.utter_message(response="utter_ask_oraganization_RDP")
 
-        dispatcher.utter_message(text="Organization create ticket")
         return []
 
 
@@ -453,8 +519,12 @@ class ActionOrganizationCurrentActiveTicket(Action):
     def run(self, dispatcher: CollectingDispatcher,
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        if tracker.get_slot("org_logged_in") is True:
+            dispatcher.utter_message(text="Organization current active ticket")
+        else:
+            dispatcher.utter_message(text="Your are not logged in yet")
+            dispatcher.utter_message(response="utter_ask_oraganization_RDP")
 
-        dispatcher.utter_message(text="Organization current active ticket")
         return []
 # Fall back action override
 

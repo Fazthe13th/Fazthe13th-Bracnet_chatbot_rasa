@@ -68,31 +68,29 @@ nlu:
     - I am your existing customer
     - I am an old customer
     - I am a returning customer
-    - I use your internet
 - intent: general_quries
   examples: |
-    - Can I have some general information
+    - Can I have some general
     - General quries related to your company
     - I would like to know about [Bracnet](company_name)
     - what is [Bracnet](company_name)?
-    - I am just asking for information
 - intent: isp_quires
   examples: |
-    - Information related to internet provider
+    - related to internet provider
     - Are you internet provider
     - Do you provide ISP
     - DO you have internet service?
-- intent: available_services
-  examples: |
-    - what kind of services do you provide?
-    - what are the available services of bracnet?
-    - what bracnet can do?
-    - your company's available services
+# - intent: available_services
+#   examples: |
+#     - what kind of work do you do?
+#     - what are the available at your comapny?
+#     - what you can do?
+#     - your company's available
 - intent: managed_services
   examples: |
     - what managed do you provide
-    - available managed services
-    - I need managed service
+    - available managed
+    - I need you to managed some jobs
     - tell some that are managed by you
 - intent: video_conferencing
   examples: |
@@ -107,10 +105,12 @@ nlu:
     - Do you have security camera
 - intent: IP_phone
   examples: |
-    - voip phone systems
-    - ip telephone system for business
+    - voip phone
+    - ip telephone for business
     - I need to know about ip phone
     - voip phone, is it available?
+    - IPTSP phone
+    - IP/TSP call
 - intent: intranet
   examples: |
     - We would like to know about intranet
@@ -120,8 +120,8 @@ nlu:
     - Will [Bracnet]{"entity": "company_name", "role": "vendor"} be able to provide intranet service to [Aman Group]{"entity": "company_name", "role": "client"}
 - intent: package_information
   examples: |
-    - what are your internet packages
-    - what internet packages do you have
+    - what are your packages
+    - what packages do you have
     - can i see the packages do you have
     - how much is 1mbps will cost me a month
     - what are your monthly packages
@@ -129,8 +129,7 @@ nlu:
   examples: |
     - Give me the contact for your salesperson of my area
     - How can I contact to the sales guy
-    - who should I talk to if I want to know more about your services
-    - I am interested to buy. who should I contact with
+    - who should I contact with
 - intent: available_zones
   examples: |
     - Can you provide in my area
@@ -179,26 +178,27 @@ nlu:
     - Home connectivity
     - Home internet client
     - personal internet
-- intent: organization_number_of_links
-  examples: |
-    - Number of links in my organization
-    - How many links do I have in my company
-    - what are the number of links company is using
-- intent: organization_bandwidth
-  examples: |
-    - My organization bandwidth
-    - what is my company internet connection speed
-    - what is company's bandwidth
+    - local client
+# - intent: organization_number_of_links
+#   examples: |
+#     - Number of links in my organization
+#     - How many links do I have in my company
+#     - what are the number of links company is using
+# - intent: organization_bandwidth
+#   examples: |
+#     - My organization bandwidth
+#     - what is my company internet connection speed
+#     - what is company's bandwidth
 - intent: organization_last_payment_info
   examples: |
     - when did we last paid our bill
     - last payment from our comany
     - give me information of our comany's last payment
-- intent: organization_current_package
-  examples: |
-    - which package our company using right now
-    - give me company package information
-    - what package company currently using
+# - intent: organization_current_package
+#   examples: |
+#     - which package our company using right now
+#     - give me company package information
+#     - what package company currently using
 - intent: oraganization_next_payment
   examples: |
     - what is company's next payemnt date

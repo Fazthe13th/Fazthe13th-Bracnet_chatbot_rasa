@@ -1,7 +1,7 @@
 version: '2.0'
 session_config:
-  session_expiration_time: 5
-  carry_over_slots_to_new_session: false
+  session_expiration_time: 20
+  carry_over_slots_to_new_session: true
 intents:
 - greet
 - goodbye
@@ -16,9 +16,9 @@ intents:
     use_entities:
     - company_name
 - isp_quires
-- available_services:
-    use_entities:
-    - company_name
+# - available_services:
+#     use_entities:
+#     - company_name
 - managed_services
 - video_conferencing
 - smart_home
@@ -29,10 +29,10 @@ intents:
 - available_zones
 - organization_client
 - rdp_client
-- organization_number_of_links
-- organization_bandwidth
+# - organization_number_of_links
+# - organization_bandwidth
 - organization_last_payment_info
-- organization_current_package
+# - organization_current_package
 - oraganization_next_payment
 - oraganization_create_ticket
 - organization_current_active_ticket
@@ -62,7 +62,7 @@ slots:
   org_logged_in:
     type: bool
     initial_value: false
-    influence_conversation: true
+    influence_conversation: false
   rdp_logged_in:
     type: bool
     initial_value: false
@@ -83,8 +83,8 @@ responses:
   utter_general_quries:
   - text: What is it about Bracnet Limited you wnat to know
     buttons:
-    - title: Available services
-      payload: /available_services
+    # - title: Available services
+    #   payload: /available_services
     - title: Managed services
       payload: /managed_services
     - title: Video conferencing
@@ -151,7 +151,7 @@ responses:
   utter_ask_client_phone:
   - text: Also can I have your phone number for future reference?
   utter_ask_crm_id:
-  - text: What is your branch ID?
+  - text: What is your Client ID?
   utter_ask_crm_password:
   - text: What is your password?
   # from questions end
@@ -188,14 +188,14 @@ responses:
   utter_ask_organization_options:
   - text: What do you want to know?
     buttons:
-    - title: Number of links
-      payload: /organization_number_of_links
-    - title: My Bandwidth
-      payload: /organization_bandwidth
+    # - title: Number of links
+    #   payload: /organization_number_of_links
+    # - title: My Bandwidth
+    #   payload: /organization_bandwidth
     - title: Last Payment Information
       payload: /organization_last_payment_info
-    - title: Current active package
-      payload: /organization_current_package
+    # - title: Current active package
+    #   payload: /organization_current_package
     - title: Next payment date
       payload: /oraganization_next_payment
     - title: Create ticket
