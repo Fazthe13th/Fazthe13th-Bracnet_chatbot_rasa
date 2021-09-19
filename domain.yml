@@ -135,7 +135,7 @@ responses:
   utter_IP_phone:
   - text: For VOIP solution follow [this link](https://bracnet.net/ip-phone/)
   utter_intranet:
-  - text: We provide intranet for organizations. Please see [this link](https://bracnet.net/intranet/)
+  - text: We provide intranet for corporate office. Please see [this link](https://bracnet.net/intranet/)
   utter_cheer_up:
   - text: 'Here is something to cheer you up:'
     image: https://i.imgur.com/nGF1K8f.jpg
@@ -181,7 +181,7 @@ responses:
   utter_ask_oraganization_RDP:
   - text: Chose the type of customer your are
     buttons:
-    - title: Oraganization
+    - title: Corporate
       payload: /organization_client
     - title: Home connectivity/RDP
       payload: /rdp_client
@@ -196,7 +196,7 @@ responses:
       payload: /organization_last_payment_info
     # - title: Current active package
     #   payload: /organization_current_package
-    - title: Next payment date
+    - title: Next payment Information
       payload: /oraganization_next_payment
     - title: Create ticket
       payload: /oraganization_create_ticket

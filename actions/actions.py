@@ -271,7 +271,7 @@ class ActionAvailableZone(Action):
     def run(self, dispatcher: CollectingDispatcher,
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-        package_text = "zone"
+        package_text = "We are available all around Bangladesh"
         dispatcher.utter_message(text=package_text)
         return []
 
