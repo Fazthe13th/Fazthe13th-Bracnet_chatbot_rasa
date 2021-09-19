@@ -225,11 +225,13 @@ actions:
 - validate_organization_form
 forms:
   leads_form:
+    required_slots:
       client_name:
       - type: from_text
       client_phone:
       - type: from_text
   organization_form:
+    required_slots:
       crm_id:
       - type: from_text
       crm_password:

@@ -22,11 +22,11 @@ rules:
   steps:
   - intent: isp_quires
   - action: utter_isp_quires
-- rule: Answer Avialable anytime
-  steps: 
-  - intent: available_services
-  - action: utter_available_services
-  - action: utter_ask_anything_else
+# - rule: Answer Avialable anytime
+#   steps: 
+#   - intent: available_services
+#   - action: utter_available_services
+#   - action: utter_ask_anything_else
 - rule: Answer Managed service
   steps:
   - intent: managed_services
